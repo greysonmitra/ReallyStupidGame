@@ -1,0 +1,10 @@
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/obj/x86/Debug/ReallyStupidGame.Icon.ico
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/bin/Debug/OpenTK.dll.config
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/bin/Debug/ReallyStupidGame.exe.mdb
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/bin/Debug/ReallyStupidGame.exe
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/obj/x86/Debug/ReallyStupidGame.exe
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/obj/x86/Debug/ReallyStupidGame.exe.mdb
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/bin/Debug/MonoGame.Framework.dll
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/bin/Debug/OpenTK.dll
+/Users/gmit3891/Projects/ReallyStupidGame/ReallyStupidGame/bin/Debug/NVorbis.dll
