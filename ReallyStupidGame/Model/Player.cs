@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReallyStupidGame.View;
 
 
-namespace ReallyStupidGame
+namespace ReallyStupidGame.Model
 {
 	public class Player
 	{
@@ -91,8 +91,8 @@ namespace ReallyStupidGame
 		// Update the player animation
 		public void Update(GameTime gameTime)
 		{
-			PlayerAnimation.Position = Position;
-			PlayerAnimation.Update(gameTime);
+			playerAnimation.Position = Position;
+			playerAnimation.Update(gameTime);
 		}
 
 		// Draw the player

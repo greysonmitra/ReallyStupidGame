@@ -4,8 +4,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using ReallyStupidGame.Model;
 
-namespace ReallyStupidGame
+namespace ReallyStupidGame.View
 {	
 	public class Animation
 	{
@@ -70,7 +71,7 @@ namespace ReallyStupidGame
 	// The color of the frame we will be displaying
 	private Color color;
 
-	public int Color
+	public Color Color
 	{
 		get { return color; }
 		set { color = value; }
@@ -194,15 +195,14 @@ namespace ReallyStupidGame
 
 
 
-	public void Initialize()
-	{
-	}
-	public void Update()
-	{
-	}
-	public void Draw()
-	{
-	}
+		// Draw the player
+		public void Draw(SpriteBatch spriteBatch)
+		{
+			if (Active) 
+			{
+				spriteBatch.Draw (spriteStrip, destinationRect, sourceRect, color);
+			}
+		}
 
 
 
