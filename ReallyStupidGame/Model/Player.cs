@@ -48,7 +48,7 @@ namespace ReallyStupidGame
 			set { score = value; }
 		}
 
-		public void Initialize()
+		public void Initialize(Texture2D texture, Vector2 position)
 		{
 			this.active = true;
 			this.health = 100;
@@ -62,9 +62,9 @@ namespace ReallyStupidGame
 			
 		}
 
-		public void Draw()
+		public void Draw(SpriteBatch spriteBatch)
 		{
-
+			spriteBatch.Draw(PlayerTexture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 	}
 }
