@@ -30,6 +30,13 @@ namespace ReallyStupidGame.Controller
 		// A movement speed for the player
 		private float playerMoveSpeed;
 
+		// Image used to display the static background
+		Texture2D mainBackground;
+
+		// Parallaxing Layers
+		ParallaxingBackground bgLayer1;
+		ParallaxingBackground bgLayer2;
+
 		public MorningGame ()
 		{
 			graphics = new GraphicsDeviceManager (this);
@@ -50,6 +57,10 @@ namespace ReallyStupidGame.Controller
 
 			// Set a constant player move speed
 			playerMoveSpeed = 8.0f;
+
+			//Initialize background layers
+			bgLayer1 = new ParallaxingBackground();
+			bgLayer2 = new ParallaxingBackground();
 
 
 			base.Initialize ();
@@ -74,6 +85,12 @@ namespace ReallyStupidGame.Controller
 			Vector2 playerPosition = new Vector2 (GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y
 				+ GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
 			player.Initialize(playerAnimation, playerPosition);
+
+			// Load the parallaxing background
+			bgLayer1.Initialize(Content, "Texture/bgLayer1", GraphicsDevice.Viewport.Width, -1);
+			bgLayer2.Initialize(Content, "Texture/bgLayer2", GraphicsDevice.Viewport.Width, -2);
+
+			mainBackground = Content.Load<Texture2D>("mainbackground");
 		}
 
 		private void UpdatePlayer(GameTime gameTime)
@@ -136,6 +153,10 @@ namespace ReallyStupidGame.Controller
 
 			UpdatePlayer (gameTime);
 
+			// Update the parallaxing background
+			bgLayer1.Update();
+			bgLayer2.Update();
+
 			base.Update (gameTime);
 		}
 
@@ -151,6 +172,13 @@ namespace ReallyStupidGame.Controller
             
 			// Start drawing
 			spriteBatch.Begin();
+
+			spriteBatch.Draw(mainBackground, Vector2.Zero, Color.White);
+
+			// Draw the moving background
+			bgLayer1.Draw(spriteBatch);
+			bgLayer2.Draw(spriteBatch);
+
 
 			// Draw the Player
 			player.Draw(spriteBatch);
