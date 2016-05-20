@@ -3,6 +3,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using ReallyStupidGame.Model;
+using ReallyStupidGame.Controller;
 namespace ReallyStupidGame
 {
 	public class ParallaxingBackground

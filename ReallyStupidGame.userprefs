@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="ReallyStupidGame/ReallyStupidGame.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReallyStupidGame/View/Animation.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReallyStupidGame/Controller/MorningGame.cs">
     <Files>
-      <File FileName="ReallyStupidGame/Controller/MorningGame.cs" Line="18" Column="28" />
-      <File FileName="ReallyStupidGame/Model/Player.cs" Line="101" Column="5" />
+      <File FileName="ReallyStupidGame/Controller/MorningGame.cs" Line="94" Column="4" />
+      <File FileName="ReallyStupidGame/Model/Player.cs" Line="1" Column="1" />
       <File FileName="ReallyStupidGame/View/Animation.cs" Line="203" Column="72" />
+      <File FileName="ReallyStupidGame/View/ParallaxingBackground.cs" Line="11" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

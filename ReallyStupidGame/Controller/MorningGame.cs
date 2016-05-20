@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using ReallyStupidGame.Model;
 using ReallyStupidGame.View;
 
+
 namespace ReallyStupidGame.Controller
 {
 	/// <summary>
@@ -37,6 +38,17 @@ namespace ReallyStupidGame.Controller
 		ParallaxingBackground bgLayer1;
 		ParallaxingBackground bgLayer2;
 
+		// Enemies
+		Texture2D enemyTexture;
+		List<Enemy> enemies;
+
+		// The rate at which the enemies appear
+		TimeSpan enemySpawnTime;
+		TimeSpan previousSpawnTime;
+
+		// A random number generator
+		Random random;
+
 		public MorningGame ()
 		{
 			graphics = new GraphicsDeviceManager (this);
@@ -61,6 +73,18 @@ namespace ReallyStupidGame.Controller
 			//Initialize background layers
 			bgLayer1 = new ParallaxingBackground();
 			bgLayer2 = new ParallaxingBackground();
+
+			// Initialize the enemies list
+			enemies = new List<Enemy> ();
+
+			// Set the time keepers to zero
+			previousSpawnTime = TimeSpan.Zero;
+
+			// Used to determine how fast enemy respawns
+			enemySpawnTime = TimeSpan.FromSeconds(1.0f);
+
+			// Initialize our random number generator
+			random = new Random();
 
 
 			base.Initialize ();
