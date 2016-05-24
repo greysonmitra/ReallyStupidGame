@@ -2,7 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReallyStupidGame.View;
-namespace ReallyStupidGame
+
+namespace ReallyStupidGame.Model
 {
 	public class Enemy
 	{
