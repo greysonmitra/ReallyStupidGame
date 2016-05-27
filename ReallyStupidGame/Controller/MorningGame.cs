@@ -55,6 +55,11 @@ namespace ReallyStupidGame.Controller
 		Texture2D explosionTexture;
 		List<Animation> explosions;
 
+		//Number that holds the player score
+		int score;
+		// The font used to display UI elements
+		SpriteFont font;
+
 		// A random number generator
 		Random random;
 
@@ -91,7 +96,7 @@ namespace ReallyStupidGame.Controller
 			bgLayer2 = new ParallaxingBackground();
 
 			waveFireTime = TimeSpan.FromSeconds (.3f);
-			waves = new List<waves>(); 
+			waves = new List<WaveWeapon>(); 
 
 			// Initialize the enemies list
 			enemies = new List<Enemy> ();
@@ -112,6 +117,8 @@ namespace ReallyStupidGame.Controller
 
 			explosions = new List<Animation>();
 
+			//Set player's score to zero
+			score = 0;
 
 			base.Initialize ();
 		}
@@ -148,6 +155,9 @@ namespace ReallyStupidGame.Controller
 			projectileTexture = Content.Load<Texture2D>("laser");
 
 			explosionTexture = Content.Load<Texture2D>("explosion");
+
+			// Load the score font
+			font = Content.Load<SpriteFont>("gameFont");
 
 			mainBackground = Content.Load<Texture2D>("mainbackground");
 		}
@@ -202,12 +212,18 @@ namespace ReallyStupidGame.Controller
 				// Add the projectile, but add it to the front and center of the player
 				AddProjectile(player.Position + new Vector2(player.Width / 2, 0));
 			}
+			// reset score if player health goes to zero
+			if (player.Health <= 0)
+			{
+				player.Health = 100;
+				score = 0;
+			}
 		}
 
 		private void AddWave(Vector2 position)
 		{
-			Projectile waveShot = new WaveWeapon(); 
-			waveShot.Initialize(GraphicsDevice.Viewport, waveTexture,position); 
+			Projectile waveShot = new Projectile(); 
+			waveShot.Initialize(GraphicsDevice.Viewport, waveTexture, position); 
 			waves.Add(waveShot);
 		}
 
@@ -266,7 +282,22 @@ namespace ReallyStupidGame.Controller
 			// Update the projectiles
 			UpdateProjectiles();
 
+			// Update the explosions
+			UpdateExplosions(gameTime);
+
 			base.Update (gameTime);
+		}
+
+		private void UpdateExplosions(GameTime gameTime)
+		{
+			for (int i = explosions.Count - 1; i >= 0; i--)
+			{
+				explosions[i].Update(gameTime);
+				if (explosions[i].Active == false)
+				{
+					explosions.RemoveAt(i);
+				}
+			}
 		}
 
 		private void AddProjectile(Vector2 position)
@@ -330,6 +361,17 @@ namespace ReallyStupidGame.Controller
 				projectiles[i].Draw(spriteBatch);
 			}
 
+			// Draw the explosions
+			for (int i = 0; i < explosions.Count; i++)
+			{
+				explosions[i].Draw(spriteBatch);
+			}
+
+			// Draw the score
+			spriteBatch.DrawString(font, "score: " + score, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y), Color.White);
+			// Draw the player health
+			spriteBatch.DrawString(font, "health: " + player.Health, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + 30), Color.White);
+
 			// Stop drawing
 			spriteBatch.End();
 
@@ -380,6 +422,9 @@ namespace ReallyStupidGame.Controller
 					{
 						// Add an explosion
 						AddExplosion(enemies[i].Position);
+
+						//Add to the player's score
+						score += enemies[i].Value;
 					}
 					enemies.RemoveAt(i);
 				} 

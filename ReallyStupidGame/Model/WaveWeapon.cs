@@ -44,6 +44,12 @@ namespace ReallyStupidGame.Model
 			set { position = value; }
 		}
 
+		public Viewport Viewport
+		{
+			get { return viewport; }
+			set { viewport = value; }
+		}
+
 
 		public void Initialize(Viewport viewPort, Texture2D texture, Vector2 position)
 		{

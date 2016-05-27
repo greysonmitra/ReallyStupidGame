@@ -94,10 +94,7 @@ namespace ReallyStupidGame.Model
 			// Draw the animation
 			EnemyAnimation.Draw(spriteBatch);
 		}
-
-		public Enemy ()
-		{
-		}
+			
 	}
 }
 
