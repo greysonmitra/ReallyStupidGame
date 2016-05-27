@@ -1,5 +1,6 @@
 ﻿using System;
 
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
@@ -38,6 +39,11 @@ namespace ReallyStupidGame.Controller
 		ParallaxingBackground bgLayer1;
 		ParallaxingBackground bgLayer2;
 
+		private TimeSpan waveFireTime;
+		private TimeSpan previousWaveFireTime;
+		private List<WaveWeapon> waves;
+		private Texture2D waveTexture;
+
 		// Enemies
 		Texture2D enemyTexture;
 		List<Enemy> enemies;
@@ -45,6 +51,9 @@ namespace ReallyStupidGame.Controller
 		// The rate at which the enemies appear
 		TimeSpan enemySpawnTime;
 		TimeSpan previousSpawnTime;
+
+		Texture2D explosionTexture;
+		List<Animation> explosions;
 
 		// A random number generator
 		Random random;
@@ -81,6 +90,9 @@ namespace ReallyStupidGame.Controller
 			bgLayer1 = new ParallaxingBackground();
 			bgLayer2 = new ParallaxingBackground();
 
+			waveFireTime = TimeSpan.FromSeconds (.3f);
+			waves = new List<waves>(); 
+
 			// Initialize the enemies list
 			enemies = new List<Enemy> ();
 
@@ -97,6 +109,8 @@ namespace ReallyStupidGame.Controller
 
 			// Set the laser to fire every quarter second
 			fireTime = TimeSpan.FromSeconds(.15f);
+
+			explosions = new List<Animation>();
 
 
 			base.Initialize ();
@@ -122,6 +136,9 @@ namespace ReallyStupidGame.Controller
 				+ GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
 			player.Initialize(playerAnimation, playerPosition);
 
+			waveTexture = Content.Load<Texture2D> ("Texture/wave");
+
+
 			// Load the parallaxing background
 			bgLayer1.Initialize(Content, "Texture/bgLayer1", GraphicsDevice.Viewport.Width, -1);
 			bgLayer2.Initialize(Content, "Texture/bgLayer2", GraphicsDevice.Viewport.Width, -2);
@@ -129,6 +146,8 @@ namespace ReallyStupidGame.Controller
 			enemyTexture = Content.Load<Texture2D>("mineAnimation");
 
 			projectileTexture = Content.Load<Texture2D>("laser");
+
+			explosionTexture = Content.Load<Texture2D>("explosion");
 
 			mainBackground = Content.Load<Texture2D>("mainbackground");
 		}
@@ -166,6 +185,14 @@ namespace ReallyStupidGame.Controller
 			player.Position.X = MathHelper.Clamp(player.Position.X, 0,GraphicsDevice.Viewport.Width - player.Width);
 			player.Position.Y = MathHelper.Clamp(player.Position.Y, 0,GraphicsDevice.Viewport.Height - player.Height);
 
+			if(gameTime.TotalGameTime - previousWaveFireTime > waveFireTime && currentKeyboardState.IsKeyDown  ((Keys.U)))
+			{
+				previousWaveFireTime = gameTime.TotalGameTime;
+
+				AddWave (player.Position + new Vector2 (player.Width / 2, 0));
+			}
+
+
 			// Fire only every interval we set as the fireTime
 			if (gameTime.TotalGameTime - previousFireTime > fireTime)
 			{
@@ -174,6 +201,27 @@ namespace ReallyStupidGame.Controller
 
 				// Add the projectile, but add it to the front and center of the player
 				AddProjectile(player.Position + new Vector2(player.Width / 2, 0));
+			}
+		}
+
+		private void AddWave(Vector2 position)
+		{
+			Projectile waveShot = new WaveWeapon(); 
+			waveShot.Initialize(GraphicsDevice.Viewport, waveTexture,position); 
+			waves.Add(waveShot);
+		}
+
+
+		private void updateWaves()
+		{
+			for (int i = waves.Count - 1; i >= 0; i--)
+			{
+				waves [i].Update ();
+
+				if(waves[i].Active == false)
+				{
+					waves.RemoveAt (i);
+				}
 			}
 		}
 
@@ -206,6 +254,8 @@ namespace ReallyStupidGame.Controller
 			// Update the parallaxing background
 			bgLayer1.Update();
 			bgLayer2.Update();
+
+			updateWaves ();
 
 			// Update the enemies
 			UpdateEnemies(gameTime);
@@ -259,6 +309,11 @@ namespace ReallyStupidGame.Controller
 			bgLayer1.Draw(spriteBatch);
 			bgLayer2.Draw(spriteBatch);
 
+
+			for(int index = 0; index < waves.Count; index++)
+			{
+				waves [index].Draw (spriteBatch);
+			}
 
 			// Draw the Player
 			player.Draw(spriteBatch);
@@ -320,6 +375,12 @@ namespace ReallyStupidGame.Controller
 
 				if (enemies[i].Active == false)
 				{
+					// If not active and health <= 0
+					if (enemies[i].Health <= 0)
+					{
+						// Add an explosion
+						AddExplosion(enemies[i].Position);
+					}
 					enemies.RemoveAt(i);
 				} 
 			}
@@ -386,6 +447,13 @@ namespace ReallyStupidGame.Controller
 					}
 				}
 			}
+		}
+
+		private void AddExplosion(Vector2 position)
+		{
+			Animation explosion = new Animation();
+			explosion.Initialize(explosionTexture,position, 134, 134, 12, 45, Color.White, 1f,false);
+			explosions.Add(explosion);
 		}
 	}
 }
